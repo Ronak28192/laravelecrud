@@ -38,23 +38,35 @@ class StudentController extends Controller
     {
         //
         // echo"store";
-         $validated = $request->validate([
-                        'name' => 'required|alpha|max:50',
-                        'email' => 'required',
-                    ]);
-        $s1 = new student();
-         $s1->name = $request->input("name");
-         $s1->email  = $request->input("email");
-         $s1->mobile = $request->input("mobile");
-         $s1->age = $request->input("age");
-         $s1->marks = $request->input("marks");
-         $s1->city = $request->input("city");
-         $s1->Images = "laptop.jpg";
+        $request->validate([
+        'name'   => 'required|min:3|max:50',
+        'email'  => 'required|email|unique:students,email',
+        'mobile' => 'required|digits:10',
+        'age'    => 'required|integer|min:1|max:100',
+        'marks'  => 'required|numeric|min:0|max:100',
+        'city'   => 'required|string|max:50',
+        'img'    => 'required|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
+    ]);
 
-         if($s1->save())
-         {
-            echo"Record inserted successfully";
-         }
+    // Image upload
+    $filename = null;
+    if ($request->hasFile('img')) {
+        $filename = time() . '.' . $request->img->extension();
+        $request->img->move(public_path('uploads'), $filename);
+    }
+
+    // Insert data
+    Student::create([
+        'name'   => $request->name,
+        'email'  => $request->email,
+        'mobile' => $request->mobile,
+        'age'    => $request->age,
+        'marks'  => $request->marks,
+        'city'   => $request->city,
+        'images'    => $filename,
+    ]);
+
+    return redirect('/student')->with('status', 'Student Added Successfully!');
                     
         
 
