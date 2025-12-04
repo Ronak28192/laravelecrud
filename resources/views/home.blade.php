@@ -9,13 +9,14 @@
 
                 <div class="card-body">
                     @if (session('status'))
-                        <div class="alert alert-success" role="alert">
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             {{ session('status') }}
                         </div>
                     @endif
 
                     <a href="/student/create" class="btn btn-success">Add Student</a>
-                    <a href="" class="btn btn-dark">show </a>
+                    <a href="/student/1" class="btn btn-dark">show </a>
                     
                 </div>
             </div>

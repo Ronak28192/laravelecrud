@@ -39,12 +39,12 @@ class StudentController extends Controller
         //
         // echo"store";
         $request->validate([
-        'name'   => 'required|min:3|max:50',
+        'name'   => 'required|alpha|min:3|max:50',
         'email'  => 'required|email|unique:students,email',
         'mobile' => 'required|digits:10',
         'age'    => 'required|integer|min:1|max:100',
         'marks'  => 'required|numeric|min:0|max:100',
-        'city'   => 'required|string|max:50',
+        'city'   => 'required|alpha|string|max:50',
         'img'    => 'required|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
     ]);
 
@@ -75,10 +75,11 @@ class StudentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(student $student)
+    public function show()
     {
         //
-        echo"show";
+        $data = Student::all();
+        return view('show',['students'=>$data]);
     }
 
     /**
