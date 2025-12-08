@@ -88,16 +88,53 @@ class StudentController extends Controller
     public function edit(student $student)
     {
         //
-        echo"edit";
+        // echo"edit";
+        $data = student::find($student);
+        return view('edit',['student'=>$data]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatestudentRequest $request, student $student)
+    public function update(Request $request,$id)
     {
         //
-        echo"update";
+        // echo"update";
+         
+         $request->validate([
+                                'name'   => 'required|alpha|min:3|max:50',
+                                'email'  => 'required|email',
+                                'mobile' => 'required|digits:10',
+                                'age'    => 'required|integer|min:1|max:100',
+                                'marks'  => 'required|numeric|min:0|max:100',
+                                'city'   => 'required|alpha|string|max:50',
+                                'img'    => 'required|image|mimes:jpg,jpeg,png,webp|max:2048', // 2MB
+                            ]);
+
+            // Image upload
+            $filename = null;
+            if ($request->hasFile('img')) {
+                $filename = time() . '.' . $request->img->extension();
+                $request->img->move(public_path('uploads'), $filename);
+            }
+
+            // Insert data
+            $data = Student::findOrFail($id);
+            $data->name = $request->name;
+            $data->email = $request->email;
+            $data->mobile = $request->mobile;
+            $data->age = $request->age;
+            $data->marks = $request->marks;
+            $data->city = $request->city;
+            $data->images = $filename;
+            
+            if($data->save())
+            {
+              return redirect('/student')->with('status', 'Student Updated Successfully!');
+            }
+            else{
+               return redirect('/student')->with('status', 'Error in Student Updating Successfully!');
+            }
     }
 
     /**

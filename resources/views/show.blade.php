@@ -39,7 +39,7 @@
                                 <td><img src="/uploads/{{$s->Images}}" width="50px" height="50px" alt="img"></td>
                                 <td>
                                  <a href="/student/create" class="btn btn-success">Add </a>
-                                 <a href="/student/create" class="btn btn-warning">Edit </a>
+                                 <a href="/student/{{$s->id}}/edit" class="btn btn-warning">Edit </a>
                                  <a href="/student/create" class="btn btn-danger">Delete </a>
                                  
                                 </td>
