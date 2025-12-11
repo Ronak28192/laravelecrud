@@ -39,14 +39,26 @@
                                 <td><img src="/uploads/{{$s->Images}}" width="50px" height="50px" alt="img"></td>
                                 <td>
                                  <a href="/student/create" class="btn btn-success">Add </a>
-                                 <a href="/student/{{$s->id}}/edit" class="btn btn-warning">Edit </a>
-                                 <a href="/student/create" class="btn btn-danger">Delete </a>
+                                  
+                                
+                                 {{-- <a href="" class="btn btn-danger">Delete </a> --}}
                                  
                                 </td>
+                                <td> <a href="/student/{{$s->id}}/edit" class="btn btn-warning">Edit </a></td>
+                               <td>
+                                 <form action="/student/{{$s->id}}" method="post" >
+                                    @csrf
+                                    @method('Delete')
+                                    <input type="submit" class="btn btn-danger" value="Delete" />
+
+                                 </form>
+                               </td>
+
                             </tr>                         
                            @endforeach
                             </tbody>
                         </table>  
+                       {{ $students->links() }}
                                        
                         <a href="/student" class="btn btn-danger">Back</a>              
                   

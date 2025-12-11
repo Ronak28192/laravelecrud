@@ -78,7 +78,7 @@ class StudentController extends Controller
     public function show()
     {
         //
-        $data = Student::all();
+        $data = Student::paginate(3);
         return view('show',['students'=>$data]);
     }
 
@@ -140,9 +140,18 @@ class StudentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(student $student)
+    public function destroy($id)
     {
         //
-        echo"destroy";
+        // echo"destroy";
+         $data = student::find($id);
+         if($data->delete())
+            {
+              return redirect('/student')->with('status', 'Student Deleted Successfully!');
+            }
+            else{
+               return redirect('/student')->with('status', 'Error in Student Deleted Successfully!');
+            }
+
     }
 }
